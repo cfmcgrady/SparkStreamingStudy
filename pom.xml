@@ -62,13 +62,6 @@
                             <goal>compile</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>scala-waimai.da.test-compile</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
                 </executions>
             </plugin>
 
