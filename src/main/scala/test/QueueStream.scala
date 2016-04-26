@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -48,7 +31,6 @@ object QueueStream {
       rdd.setName("rddname" + formatTs(time.milliseconds))
       val cacheRdd = rdd.cache()
       val count = cacheRdd.count
-      if(count == 10000) println("xxxxxxxxxxxxxxxxxx")
       if (count > 100) cacheRdd.sample(false, 0.1, System.currentTimeMillis) else cacheRdd
     })
     d1.transform(rdd =>{
@@ -59,18 +41,12 @@ object QueueStream {
     }).print
 
 
-//    reducedStream.print()
     ssc.start()
 
     // Create and push some RDDs into
-    var x = 0
     while(true) {
-      if (x == 3)
-        rddQueue += ssc.sparkContext.makeRDD(1 to 10000, 10)
-      else
         rddQueue += ssc.sparkContext.makeRDD(1 to 1000, 10)
       Thread.sleep(3000)
-      x += 1
     }
     ssc.awaitTermination()
   }
